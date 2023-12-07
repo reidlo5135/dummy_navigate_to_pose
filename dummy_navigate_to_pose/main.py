@@ -1,6 +1,7 @@
 import rclpy
 
 from rclpy.node import Node
+from rclpy.executors import MultiThreadedExecutor
 from rclpy.exceptions import ROSInterruptException
 
 from .node.dummy_node import DummyNavigateToPose
@@ -12,7 +13,9 @@ def main(args=None) -> None:
     try:
         node: Node = DummyNavigateToPose()
         node_name: str = node.get_name()
-        rclpy.spin(node)
+        multi_threaded_executor: MultiThreadedExecutor = MultiThreadedExecutor()
+        multi_threaded_executor.add_node(node = node)
+        multi_threaded_executor.spin()
     except ROSInterruptException as rie:
         node.get_logger().warn(f'===== [{node_name}] terminated with Ctrl-C {rie} =====')
     
