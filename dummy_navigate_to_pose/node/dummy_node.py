@@ -1,3 +1,4 @@
+import time
 from rclpy.node import Node
 from rclpy.action import ActionServer
 from rclpy.timer import Timer
@@ -25,24 +26,13 @@ class DummyNavigateToPose(Node):
             callback_group=self.action_server_cb_group
         )
         
-        self.count: int = 0
-        self.timer_cb_group: MutuallyExclusiveCallbackGroup = MutuallyExclusiveCallbackGroup()
-        self.timer_period_sec: float = 1.0
-        self.timer: Timer = self.create_timer(
-            timer_period_sec=self.timer_period_sec,
-            callback_group=self.timer_cb_group,
-            callback=self.timer_cb
-        )
-        
     
     def action_server_execute_cb(self, goal_handle: ServerGoalHandle) -> NavigateToPose.Result:
         self.get_logger().info(f'{RCLPY_NODE_NAME} request goal : {goal_handle.request}')
-        
+        time.sleep(30.0)
         goal_handle.succeed()
         result: NavigateToPose.Result = NavigateToPose.Result()
         return result
-            
-
     
-    def timer_cb(self) -> None:
-        self.count += 1
+    
+        
