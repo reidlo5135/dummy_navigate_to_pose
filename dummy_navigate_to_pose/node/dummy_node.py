@@ -29,7 +29,7 @@ class DummyNavigateToPose(Node):
     
     def action_server_execute_cb(self, goal_handle: ServerGoalHandle) -> NavigateToPose.Result:
         self.get_logger().info(f'{RCLPY_NODE_NAME} request goal : {goal_handle.request}')
-        time.sleep(30.0)
+        time.sleep(10.0)
         goal_handle.succeed()
         result: NavigateToPose.Result = NavigateToPose.Result()
         return result
